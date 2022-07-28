@@ -1,61 +1,49 @@
-function Account(name, balance) {
-    this.name = name;
-    this.balance = balance;
+// bank account
+// implement the following prototype
+// deposit, withdraw,
+// amount--mu
+
+function bankAccount(accNo, accName, balance) {
+  this.accNo = accNo;
+  this.accName = accName;
+  this.balance = balance;
+}
+
+bankAccount.prototype.deposit = function(depositAmount){
+  if (isNaN(parseFloat(depositAmount))) {
+    return console.log('please enter the amount in numbers')
+  }else if (Math.sign(depositAmount) === -1){
+    return console.log('please enter a positive number')
+  }else{
+    return console.log(`you have deposited ${depositAmount} and this is your balance ${this.balance += depositAmount}`)
   }
-  
-  Account.prototype.deposit = function(amount) {
-    if (this._isPositive(amount)) {
-      this.balance += amount;
-      console.info(`Deposit: ${this.name} new balance is ${this.balance}`);
-      return true;
-    }
-    return false;
+}
+
+bankAccount.prototype.withdraw = function (withdrawalAmount) {
+  if (withdrawalAmount > this.balance) {
+      return console.log(`you do not have sufficient balance in your account. Your account balance is ${this.balance}`)
+  } else {
+      return console.log(`you have withdrawn ${withdrawalAmount} and this is your balance ${this.balance -= withdrawalAmount}`)
   }
+}
+bankAccount.prototype.getBalance = function () {
+  return console.log(`your balance is ${this.balance}`)
+}
+
+
+// generating IBAM
+bankAccount.prototype.generateIBAN = function (){
+  // base 36
+  const IBAN = Math.random().toString(36).substring(3,8).toUpperCase()
   
-  Account.prototype.withdraw = function(amount) {
-    if (this._isAllowed(amount)) {
-      this.balance -= amount;
-      console.info(`Withdraw: ${this.name} new balance is ${this.balance}`);
-      return true;
-    }
-    return false;
-  }
-  
-  Account.prototype.transfer = function(amount, account) {
-    if (this.withdraw(amount) && account.deposit(amount)) {
-      console.info(`Transfer: ${amount} has been moved from ${this.name} to ${account.name}`);
-      return true;
-    }
-    return false;
-  }
-  
-  
-  Account.prototype._isPositive = function(amount) {
-    const isPositive = amount > 0;
-    if (!isPositive) {
-      console.error('Amount must be positive!');
-      return false;
-    }
-    return true;
-  }
-  
-  Account.prototype._isAllowed = function(amount) {
-    if (!this._isPositive(amount)) return false;
-  
-    const isAllowed = this.balance - amount >= 0;
-    if (!isAllowed) {
-      console.error('You have insufficent funds!');
-      return false;
-    }
-    return true;
-  }
-  
-  const a = new Account('a', 100);
-  const b = new Account('b', 0);
-  
-  
-  output.innerText += `before:  a: ${a.balance}, b: ${b.balance}\n`;
-  
-  a.transfer(100, b);
-  
-  output.innerText += `after:  a: ${a.balance}, b: ${b.balance}\n`;
+  return console.log(`your IBN number is ${IBAN + this.accNo}`)
+}
+
+const elijah = new bankAccount(567765554456, "elijah peter", 200)
+
+user1 = new bankAccount(4567879, 'faith', 100000)
+console.log(user1.deposit(5000))
+console.log(user1.withdraw(20000))
+console.log(user1.getBalance())
+
+elijah.generateIBAN()
